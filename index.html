@@ -16,41 +16,12 @@
 <!-- style for the loader -->
 <style>
     
-    body, canvas, video{
-        height: 500px !important;
-    }
-  .arjs-loader {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .arjs-loader div {
-    text-align: center;
-    font-size: 1.25em;
-    color: white;
-  }
-    
-    #kamera {
-        width: 300px;
-        height: 300px;
-    }
 </style>
 <script>
 //     var secondCameraEl = document.querySelector('#kamera');
 // secondCameraEl.setAttribute('camera', 'active', true);    
 </script>
-<body style="margin : 0px; overflow: hidden;">
-  <div class="arjs-loader">
-    <div>Loading, please wait...</div>
-  </div>
+<body>
 
   <!-- a-frame scene -->
   <a-scene
@@ -68,14 +39,11 @@
       smoothTolerance=".01"
       smoothThreshold="5"
     >
-      <a-entity 
-        geometry="primitive: box"
-        material="color: red">
-      </a-entity>
-<!-- <a-image src="#my-image"></a-image> -->
+
+    <a-image src="ar/marker.jpg"></a-image>
     </a-nft>
     <!-- static camera that moves according to the device movemenents -->
-    <a-entity camera id="kamera"></a-entity>
+    <a-entity camera></a-entity>
   </a-scene>
 </body>
 
