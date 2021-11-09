@@ -1,16 +1,20 @@
-# Hello Website (blank)
+# Hello Node (blank)
 
-This is a basic static HTML starter project you can build on however you like. No need to save. While you develop your site, your changes will happen 🪄 immediately in the preview window. You can upload assets like images or audio in `assets` to the left. The rest is up to you and your imagination.
+[Node.js](https://nodejs.org/en/about/) is a popular runtime that lets you run JavaScript on the server. This project uses the [Fastify](https://www.fastify.io/) framework and basic templating with [Handlebars](https://handlebarsjs.com/).
 
 ## What's in this project?
 
-← `README.md`: That's this file, where you can tell people what your cool website does and how you built it.
+← `README.md`: That’s this file, where you can tell people what your cool website does and how you built it.
 
-← `index.html`: This is the main HTML page for your site.
+← `public/style.css`: The styling rules for your pages and posts.
 
-← `style.css`: CSS files add styling rules to your content.
+← `server.js`: The main server script for your new site.
 
-← `script.js`: If you're feeling fancy you can add interactivity to your site with JavaScript.
+← `src/`: This folder holds page templates, additional scripts.
+
+### Working in the `src/` folder 📁
+
+← `src/pages/index.hbs`: This is the main page template for your site.
 
 ![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)
 
