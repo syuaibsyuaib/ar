@@ -149,6 +149,16 @@ fastify.post("/scanner", async function(request, reply) {
   reply.send(ok);
 });
 
+
+
+async function updatePosisi(iduser, isix){
+  // kolom, baris value
+  const posisi = await posisiTerakhir(iduser);
+  const kolomHuruf = keHuruf(posisi.kolom);
+  await tulis(isix, `${kolomHuruf}${posisi.baris}`);
+  return "ok";
+  }
+
 function keHuruf(num) {
   return String.fromCharCode(num - 1 + 65);
 }
