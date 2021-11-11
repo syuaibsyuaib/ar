@@ -1,0 +1,33 @@
+{
+  "name": "glitch-mvp-node",
+  "version": "0.0.1",
+  "description": "A simple Node app built on fastify, instantly up and running.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "fastify": "^3.23.1",
+    "fastify-formbody": "^5.1.0",
+    "fastify-static": "^4.5.0",
+    "handlebars": "^4.7.7",
+    "point-of-view": "^4.15.2",
+    "uniqid": "^5.4.0",
+    "qrcode": "^1.4.4",
+    "googleapis": "^91.0.0",
+    "ytdl-core": "^4.9.1",
+    "fastify-socket.io": "^2.0.1"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/glitch-mvp-node"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="Video - A-Frame">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <title>ADVENTURE AR</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
+  <script>
+  AFRAME.registerComponent('klik', {
+          init: function () {
+          // Solution for Handling Events.
+            let videoku2 = document.querySelector('#videoku2');
+            let pos1aset1Ent = document.querySelector("#pos1aset1Ent");
+            
+            pos1aset1Ent.onclick = function(e){
+              // alert(e)              
+              videoku2.play();
+            };
+            
+            pos1aset1Ent.emit('klik')
+        }
+    });
+    
+  </script>
+  
+  
+<style>
+  body,
+  html {
+    margin: 0 !important;
+    margin-left: 0 !important;
+    position: static !important;
+    width: 100vw !important;
+  }
+
+  video {
+    width: 100vw !important;
+    margin: 0 !important;
+    position: static !important;
+  }
+
+ .a-dialog-allow-button {
+  background-color: red;
+}
+
+.a-dialog-deny-button {
+  background-color: blue;
+}
+
+.a-dialog-ok-button {
+   background-color: green;
+ }
+  
+   .arjs-loader {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .arjs-loader div {
+    text-align: center;
+    font-size: 1.25em;
+    color: white;
+  }
+  
+  .a-loader-title {
+  color: white;
+  top: 40vh;
+  height: fit-content;
+}
+  
+  .hilang{
+    display: none;
+  }
+</style>
+</head>
+
+<body>
+<div class="hilang" id="divMintaFull">
+    <button id="mintaFull" type="button" class="btn btn-primary" style="position:fixed;z-index:9999">
+      fullscreen
+    </button>
+</div>
+
+<div class="position-relative" style="z-index: 9999;">
+  <div class="position-absolute" style="left: 2vw; top:1vh; color: #ffffff4f;">
+    <small>Pengembaraan Virtual</small>
+  </div>
+</div>
+  
+  <div class="modal" tabindex="-1" id="modalSukses">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ADVENTURE AR</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Selamat Kamu Berhasil</p>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="text-center d-block">
+    <a-scene 
+      vr-mode-ui="enabled: false;"
+      allowButtonText="Mode landskap"
+      arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;'
+      loading-screen="dotsColor: red">
+      <a-assets>
+        <a-asset-item id="mandala" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2FMANDALA%203.glb?v=1636601439520"></a-asset-item>
+        <video crossorigin="anonymous" id="videoku" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fopening.m4v?v=1636405279619"></video>
+        <video playsinline="false" controls id="videoku2" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fyourwelcome.mp4?v=1636406042218"></video>
+        <img id="pos3aset1" src="https://drive.google.com/file/d/15zXI7B_ru_-hNNraJ9kgeZge5cbkpTOh/view?usp=sharing"/>
+        
+      </a-assets>
+      
+      <!-- POS 1, ASET 1-->
+      <a-marker smooth="true" type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-disdik2.patt">
+        <a-entity 
+          geometry="primitive: box"
+          position="0 0 1"
+          material="src: #videoku2"
+          scale="4 4 0"
+          rotation="-90 0 0"
+          id="pos1aset1Ent"
+          klik
+          >
+        </a-entity>
+      </a-marker>
+      
+<!--       POS 3, ASET 1 -->
+      <a-marker type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-kominfo1.patt">
+        <a-entity gltf-model="#mandala">
+          
+        </a-entity>
+      </a-marker>
+      
+      <a-entity camera>
+        <a-entity cursor
+            position="0 0 -1"
+            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+            material="color: #FF0000; shader: flat"
+            scale="0.5 0.5 0"
+            animation__fokus="property: scale;
+            to: 0.1 0.1 0;
+            dur: 100;
+            startEvents: mouseenter"
+            animation__pergi="property: scale;
+            dur: 100;
+            to: 0.5 0.5 0;
+            startEvents: mouseleave">
+        </a-entity>
+      </a-entity>
+    </a-scene>
+
+  </div>
+
+  <script>
+    
+    const socket = io();
+      
+      //ambil id socket
+      socket.on("connect", (status) => {
+        console.log(socket.id)
+        })
+      
+      function kirimSocket(){
+        //kirim socket
+        socket.emit('tes', socket.id, 'ini dari ok')
+      }
+      
+      //terima socket
+      socket.on('socketserver', (pesan)=>{
+        console.info(pesan)
+      })
+   
+    // video.addEventListener("ended", function() {
+    //   alert("The audio has ended");
+    // });
+
+    
+    function putarScreen(){
+      if(screen.orientation.type == 'portrait-primary'){
+          let elem = document.documentElement;
+          let mintaFull = document.getElementById('mintaFull');
+          let divMintaFull = document.getElementById('divMintaFull');
+        
+          divMintaFull.setAttribute("class", "arjs-loader");
+        
+          mintaFull.addEventListener('click', ()=>{
+               elem.requestFullscreen({ navigationUI: "show" })
+              .then(() => {
+              screen.orientation.lock("landscape")
+                  .then(res => {
+                  divMintaFull.setAttribute("class", "hilang");
+                })
+                .catch(err => {
+                  console(err)
+                })
+            })
+              .catch(err => {
+              console(`An error occurred while trying to switch into full-screen mode: ${err.message} (${err.name})`);
+            });
+          })  
+      }else{
+        divMintaFull.setAttribute("class", "hilang");
+      }
+    }
+ putarScreen()
+    
+    screen.orientation.addEventListener('change', function(e) {
+      putarScreen()
+    })
+    
+
+   let videoEl = document.querySelector('#videoku');
+    
+    // simpan iduser ke storage
+    if(!localStorage.getItem('iduser')){
+      localStorage.setItem('iduser', "{{iduser}}")
+    }
+    
+    let modalSukses = document.getElementById('modalSukses')
+  
+    let params = {
+      iduser: localStorage.getItem('iduser'),
+      pos: "",
+      aset: ""
+    }
+    
+    kirim(params);
+    
+    function kirim(datauser){
+      fetch("/", {
+        method: 'POST',
+        body: JSON.stringify(datauser)
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(resp => {
+        // if(resp.status){
+           console.log(resp)
+        // }
+      })
+    }
+  
+  </script>
+</body>
+
+</html>
