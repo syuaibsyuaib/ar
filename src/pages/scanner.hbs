@@ -15,25 +15,22 @@
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-
+  <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
   <script>
-  AFRAME.registerComponent('play-on-click', {
-  init: function () {
-    this.onClick = this.onClick.bind(this);
-  },
-  play: function () {
-    window.addEventListener('click', this.onClick);
-  },
-  pause: function () {
-    window.removeEventListener('click', this.onClick);
-  },
-  onClick: function (evt) {
-    var videoEl = this.el.getAttribute('material').src;
-    if (!videoEl) { return; }
-    this.el.object3D.visible = true;
-    videoEl.play();
-  }
-});
+  AFRAME.registerComponent('klik', {
+          init: function () {
+          // Solution for Handling Events.
+            let videoku2 = document.querySelector('#videoku2');
+            let pos1aset1Ent = document.querySelector("#pos1aset1Ent");
+            
+            pos1aset1Ent.onclick = function(e){
+              // alert(e)              
+              videoku2.play();
+            };
+            
+            pos1aset1Ent.emit('klik')
+        }
+    });
     
   </script>
   
@@ -84,6 +81,12 @@
     color: white;
   }
   
+  .a-loader-title {
+  color: white;
+  top: 40vh;
+  height: fit-content;
+}
+  
   .hilang{
     display: none;
   }
@@ -121,42 +124,80 @@
     <a-scene 
       vr-mode-ui="enabled: false;"
       allowButtonText="Mode landskap"
-      arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;'>
+      arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;'
+      loading-screen="dotsColor: red">
       <a-assets>
-        <a-asset-item id="animated-asset" src="https://raw.githubusercontent.com/nicolocarpignoli/nicolocarpignoli.github.io/master/ar-playground/models/CesiumMan.gltf"></a-asset-item>
-       <video crossorigin="anonymous" id="videoku" autoplay src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fopening.m4v?v=1636405279619" playsinline controls></video>
-     <video crossorigin="anonymous" id="videoku2" autoplay src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fyourwelcome.mp4?v=1636406042218" playsinline controls></video>
+        <a-asset-item id="mandala" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2FMANDALA%203.glb?v=1636601439520"></a-asset-item>
+        <video crossorigin="anonymous" id="videoku" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fopening.m4v?v=1636405279619"></video>
+        <video playsinline="false" controls id="videoku2" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fyourwelcome.mp4?v=1636406042218"></video>
+        <img id="pos3aset1" src="https://drive.google.com/file/d/15zXI7B_ru_-hNNraJ9kgeZge5cbkpTOh/view?usp=sharing"/>
+        
       </a-assets>
       
-      <!-- we use cors proxy to avoid cross-origin problems -->
-      <a-marker type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-disdik2.patt">
-        <a-entity
-          text="value: Hello World"
-        >  
-        </a-entity>
+      <!-- POS 1, ASET 1-->
+      <a-marker smooth="true" type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-disdik2.patt">
         <a-entity 
           geometry="primitive: box"
+          position="0 0 1"
           material="src: #videoku2"
           scale="4 4 0"
           rotation="-90 0 0"
+          id="pos1aset1Ent"
+          klik
           >
         </a-entity>
-        
       </a-marker>
-
-      <a-entity camera></a-entity>
+      
+<!--       POS 3, ASET 1 -->
+      <a-marker type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-kominfo1.patt">
+        <a-entity gltf-model="#mandala">
+          
+        </a-entity>
+      </a-marker>
+      
+      <a-entity camera>
+        <a-entity cursor
+            position="0 0 -1"
+            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+            material="color: #FF0000; shader: flat"
+            scale="0.5 0.5 0"
+            animation__fokus="property: scale;
+            to: 0.1 0.1 0;
+            dur: 100;
+            startEvents: mouseenter"
+            animation__pergi="property: scale;
+            dur: 100;
+            to: 0.5 0.5 0;
+            startEvents: mouseleave">
+        </a-entity>
+      </a-entity>
     </a-scene>
 
   </div>
 
-<!--         <iframe id="htmlElement" width="560" height="315" src="https://www.youtube.com/embed/5KjyTU07EHo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-
-
   <script>
+    
+    const socket = io();
+      
+      //ambil id socket
+      socket.on("connect", (status) => {
+        console.log(socket.id)
+        })
+      
+      function kirimSocket(){
+        //kirim socket
+        socket.emit('tes', socket.id, 'ini dari ok')
+      }
+      
+      //terima socket
+      socket.on('socketserver', (pesan)=>{
+        console.info(pesan)
+      })
    
-    // aud.addEventListener("ended", function() {
+    // video.addEventListener("ended", function() {
     //   alert("The audio has ended");
     // });
+
     
     function putarScreen(){
       if(screen.orientation.type == 'portrait-primary'){
@@ -192,11 +233,6 @@
     })
     
 
-
-
-    
-    
-    
    let videoEl = document.querySelector('#videoku');
     
     // simpan iduser ke storage

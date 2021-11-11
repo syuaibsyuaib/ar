@@ -30,9 +30,34 @@ const fastify = require("fastify")({
   logger: false
 });
 
-const favorites = [];
+fastify.register(require("fastify-socket.io"), {});
 
-// fastify.register(require("fastify-axios"));
+fastify.ready().then(() => {
+  fastify.io.on("connection", socket => {
+    console.log("id user socket " + socket.id);
+    
+    //terima socket
+    socket.on("tes", (iduser, pesan) => {
+      
+      //kirim socket
+      socket.emit('socketserver', pesan);
+      
+      //kirim kesemua
+      socket.broadcast.emit('socketserver', pesan)
+      
+      //masuk room
+      socket.join("some room");
+      
+      //kirim ke semua (termasuk diri sendiri) di room
+      fastify.io.to("some room").emit("some event");
+      
+    });
+    
+    
+  });
+});
+
+const favorites = [];
 
 fastify.register(require("fastify-static"), {
   root: path.join(__dirname, "public"),
@@ -47,17 +72,12 @@ fastify.register(require("point-of-view"), {
   }
 });
 
-  
-
 //===================================================================
 fastify.get("/google533aa18bac16ee48.html", function(request, reply) {
   reply.view("/google533aa18bac16ee48.html", {});
 });
 
 fastify.get("/", function(request, reply) {
-  // ytdl('https://www.youtube.com/watch?v=v5839hUuTGE')
-  // .pipe(fs.createWriteStream('video.mp4'));
-  
   const idbaru = idunik();
   let alamat = "https://spicy-carbonated-den.glitch.me/scanner?id=" + idbaru;
   favorites.push(idbaru);
@@ -66,7 +86,6 @@ fastify.get("/", function(request, reply) {
     let params = { iduser: idbaru, qrurl: url };
     reply.view("/src/pages/index.hbs", params);
   });
-  
 });
 
 //  POS 1
@@ -82,7 +101,7 @@ fastify.get("/scanner", async function(request, reply) {
   if (!absen) {
     await append(params.iduser);
     reply.view("/src/pages/scanner.hbs", params);
-  }else{
+  } else {
     reply.view("/src/pages/scanner.hbs", params);
   }
 });
@@ -90,7 +109,7 @@ fastify.get("/scanner", async function(request, reply) {
 //======================================================================
 fastify.post("/", async function(request, reply) {
   let isi = JSON.parse(request.body);
-  console.log(isi)
+  console.log(isi);
   let params = {
     iduser: isi.iduser,
     pos: isi.pos,
@@ -102,7 +121,7 @@ fastify.post("/", async function(request, reply) {
   if (params.cek) {
     const absen = await barisUser(params.iduser);
 
-      console.log(absen)
+    console.log(absen);
     if (absen) {
       reply.send({ ke: "/syuaib" });
       const hasil = await posisiTerakhir(params.iduser);
@@ -149,15 +168,13 @@ fastify.post("/scanner", async function(request, reply) {
   reply.send(ok);
 });
 
-
-
-async function updatePosisi(iduser, isix){
+async function updatePosisi(iduser, isix) {
   // kolom, baris value
   const posisi = await posisiTerakhir(iduser);
   const kolomHuruf = keHuruf(posisi.kolom);
   await tulis(isix, `${kolomHuruf}${posisi.baris}`);
   return "ok";
-  }
+}
 
 function keHuruf(num) {
   return String.fromCharCode(num - 1 + 65);

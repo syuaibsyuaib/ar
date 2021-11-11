@@ -10,6 +10,7 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+   <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
     <title>Pengembaraan Virtual</title>
 
     <!-- Import the webpage's stylesheet -->
@@ -22,7 +23,7 @@
     <div class="wrapper">
       <div class="content" role="main">
           <img src="{{qrurl}}" width=300 height=300 class="bayangan"/>  
-      <button onclick = "cekStatus1()">
+      <button onclick = "kirimSocket()">
         cek
       </button>
     </div>
@@ -37,8 +38,25 @@
      
     localStorage.setItem("iduser", "{{iduser}}");
         
-      cekStatus()  
+      const socket = io();
       
+      //ambil id socket
+      socket.on("connect", (status) => {
+        console.log(socket.id)
+        })
+      
+      function kirimSocket(){
+        //kirim socket
+        socket.emit('tes', socket.id, 'ini dari ok')
+      }
+      
+      //terima socket
+      socket.on('socketserver', (pesan)=>{
+        console.info(pesan)
+      })
+        
+      //cekStatus()  
+
       function cekStatus1() {
         fetch("/", {
           method: "POST",

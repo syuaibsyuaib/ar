@@ -15,7 +15,8 @@
     "uniqid": "^5.4.0",
     "qrcode": "^1.4.4",
     "googleapis": "^91.0.0",
-    "ytdl-core": "^4.9.1"
+    "ytdl-core": "^4.9.1",
+    "fastify-socket.io": "^2.0.1"
   },
   "engines": {
     "node": "12.x"
