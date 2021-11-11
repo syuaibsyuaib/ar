@@ -29,5 +29,6 @@
     "node",
     "glitch",
     "express"
-  ]
+  ],
+  "author": "syuaib"
 }
