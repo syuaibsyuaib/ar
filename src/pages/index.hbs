@@ -23,38 +23,56 @@
     <div class="wrapper">
       <div class="content" role="main">
           <img src="{{qrurl}}" width=300 height=300 class="bayangan"/>  
-      <button onclick = "kirimSocket()">
+<!--       <button id="testbl" onclick = "kirimSocket()">
         cek
-      </button>
+      </button> -->
     </div>
     <footer class="footer">
       <div>
 
       </div>
     </footer>
-      
-    <script src="/script.js"></script>
+
     <script>
+     // let testbl = document.getElementById("testbl")
      
-    localStorage.setItem("iduser", "{{iduser}}");
+    localStorage.setItem("iduser", '{{iduser}}');     
+      const socket = io(); 
+      socket.emit('join room', '{{iduser}}')     
+                  
+      socket.on('status join', (pesan) => {
+         console.log(`%cBerhasil masuk room : ${pesan}`, 'color:yellow;font-size:20px')
+      })
+      
+      socket.on("dari scanner", (parm, aksi)=>{
+        // alert(pindahke)
+        if(parm == "login"){
+          location.assign(aksi)
+        }
         
-      const socket = io();
+        if(parm == 'pos1aset1selesai'){
+          alert(aksi)
+        }
+      })
+         
       
-      //ambil id socket
-      socket.on("connect", (status) => {
-        console.log(socket.id)
-        })
       
+      
+      
+      
+      
+      
+      
+/////////////////////////////////////////////////////////////////////////////
       function kirimSocket(){
-        //kirim socket
-        socket.emit('tes', socket.id, 'ini dari ok')
+       //kirim ke room
+        socket.emit('pesan room', "{{iduser}}", "pesan dari index")
       }
       
-      //terima socket
-      socket.on('socketserver', (pesan)=>{
-        console.info(pesan)
+      socket.on("dari room", (pesan)=>{
+        alert(pesan)
       })
-        
+      
       //cekStatus()  
 
       function cekStatus1() {

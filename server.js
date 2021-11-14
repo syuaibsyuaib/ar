@@ -8,8 +8,12 @@
 7. klo blm, ==> setelah 1 menit,  hentikan setInterval dan munculkan tombol "buka kembali", untuk hemat kuota sheet API
 8. pos1 tampilkan peta dan aset1
 9. user scan aset1
-10. video
+10. video muncul
+11. diakhir video muncul pesan "mission complete"
+12. aset2 terbuka
+13. 
 */
+
 const qr = require("qrcode");
 const idunik = require("uniqid");
 const path = require("path");
@@ -32,28 +36,40 @@ const fastify = require("fastify")({
 
 fastify.register(require("fastify-socket.io"), {});
 
+// SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET=========================
+
 fastify.ready().then(() => {
   fastify.io.on("connection", socket => {
-    console.log("id user socket " + socket.id);
+    //masuk room
+    socket.on("join room", iduser => {
+      socket.join(iduser);
+
+      socket.emit("status join", iduser);
+    });
+
+    ///t.on("pesan scanner", (iduser, pesan) => {
+     // console.log(pesan);
+
+    socket.on("pesan room", (iduser, pesan) => {
+      if (pesan == "login") {
+        socket.to(iduser).emit("dari scanner", pesan, `/syuaib?id=${iduser}`);
+      }
+    });
+
+    
     
     //terima socket
-    socket.on("tes", (iduser, pesan) => {
-      
+    socket.on("perintah", (iduser, pesan) => {
+      //kirim di room
+      fastify.io.to(iduser).emit(pesan);
+
+      //======================================
       //kirim socket
-      socket.emit('socketserver', pesan);
-      
+      // socket.emit("socketserver", pesan);
+
       //kirim kesemua
-      socket.broadcast.emit('socketserver', pesan)
-      
-      //masuk room
-      socket.join("some room");
-      
-      //kirim ke semua (termasuk diri sendiri) di room
-      fastify.io.to("some room").emit("some event");
-      
+      // socket.broadcast.emit("socketserver", pesan);
     });
-    
-    
   });
 });
 

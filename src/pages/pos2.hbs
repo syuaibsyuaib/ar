@@ -5,7 +5,7 @@
     <link rel="icon" href="https://glitch.com/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Pengembaraan Virtual | POS 1</title>
+    <title>Pengembaraan Virtual | POS 2</title>
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
@@ -17,35 +17,17 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
   <style>
-    #pos1aset1 {
-      transform: translate(-123px, -76px);
+    #pos2aset1 {
+      transform: translate(374px, -76px);
     }
-    
-    #vidFly{
-     position: fixed;
-      width: 100vw;
-      height: 100vh;
-      z-index: 1666;
-    }
-    
+
   </style>
   </head>
   <body style="background-color: black; background-image: none">
-    
-    <div class="play">
-      <button class="button" onclick="main()">
-        GO
-      </button>
-    </div>
-    <video id="vidFly" autoplay playsinline>
-      <source src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fopening.m4v?v=1636405279619">
-    </video>
-<!--     <iframe id="vidFly" src="/mamamintapulsa" allow="autoplay;fullscreen" style="border:none"></iframe> -->
-<!--     <video id="vidFly" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fopening.m4v?v=1636405279619" controls autoplay playsinline/> -->
-    <div class="wrapper" style="display:none">
+    <div class="wrapper">
       <div class="content" role="main">
       <img class="peta" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpos1.jpg?v=1636405208856"/>
-      <img id="pos1aset1" class="aset" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-kominfo.png?v=1636693472263"/>  
+      <img id="pos2aset1" class="aset" src="https://cdn.glitch.me/2b366faa-6a5e-450a-9c96-5fae99ceedda%2Fpattern-disdik2.png?v=1636311432184"/>
       </div>
     </div>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
@@ -56,26 +38,6 @@
     </footer>
     <script src="/script.js"></script>
     <script>
-      let vidFly = document.getElementById('vidFly');
-      let playit = document.querySelector('.play');
-      let wrapper = document.querySelector('.wrapper');
-      
-      setTimeout( ()=>{
-        if(vidFly.played.length == 1){
-          main()
-        }
-      }, 2000)
-      
-      
-      function main(){
-        playit.setAttribute("style", "display:none");
-        vidFly.play();      
-      }
-      
-      vidFly.addEventListener("ended", function() {
-        vidFly.setAttribute("style", "display:none");
-        wrapper.setAttribute("style", "display:block");
-      });
       
       socket.on("dari room", (pesan)=>{
         alert(pesan)

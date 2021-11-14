@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="description" content="Video - A-Frame">
+    <title>ADVENTURE AR</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
-  <title>ADVENTURE AR</title>
+
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="/ar.js"></script>
   <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
   <script>
-  AFRAME.registerComponent('klik', {
+  AFRAME.registerComponent('putarvideo', {
           init: function () {
           // Solution for Handling Events.
             let videoku2 = document.querySelector('#videoku2');
@@ -28,7 +29,7 @@
               videoku2.play();
             };
             
-            pos1aset1Ent.emit('klik')
+            pos1aset1Ent.emit('putarvideo')
         }
     });
     
@@ -106,15 +107,19 @@
   </div>
 </div>
   
-  <div class="modal" tabindex="-1" id="modalSukses">
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">ADVENTURE AR</h5>
+      <div class="modal-header bg-primary text-light">
+        <h5 class="modal-title" id="staticBackdropLabel">Pengembaraan Virtual</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Selamat Kamu Berhasil</p>
+        SELAMAT BETUALANG
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -124,50 +129,67 @@
     <a-scene 
       vr-mode-ui="enabled: false;"
       allowButtonText="Mode landskap"
-      arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;'
-      loading-screen="dotsColor: red">
+      renderer="logarithmicDepthBuffer: true;"
+      arjs='sourceType: webcam; trackingMethod: best; debugUIEnabled: false;'
+      >
       <a-assets>
-        <a-asset-item id="mandala" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2FMANDALA%203.glb?v=1636601439520"></a-asset-item>
-        <video crossorigin="anonymous" id="videoku" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fopening.m4v?v=1636405279619"></video>
-        <video playsinline="false" controls id="videoku2" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fyourwelcome.mp4?v=1636406042218"></video>
-        <img id="pos3aset1" src="https://drive.google.com/file/d/15zXI7B_ru_-hNNraJ9kgeZge5cbkpTOh/view?usp=sharing"/>
-        
+        <a-asset-item id="mandala" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2FMANDALA3%20.gltf?v=1636716512558"></a-asset-item>
+        <video crossorigin="anonymous" playsinline="false" controls id="videoku2" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2FPak%20Boni.mp4?v=1636787655908"></video>
+        <img id="pos3aset1" src="https://lh3.googleusercontent.com/u/0/d/15zXI7B_ru_-hNNraJ9kgeZge5cbkpTOh=w917-h937-iv1"/>
+        <a-asset-item id="syuaibtext" src="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fsyuaib.glb?v=1636877911486"></a-asset-item>
       </a-assets>
       
       <!-- POS 1, ASET 1-->
-      <a-marker smooth="true" type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-disdik2.patt">
-        <a-entity 
+      <a-marker smooth="true" type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-kominfo.patt">
+        <a-entity  
           geometry="primitive: box"
           position="0 0 1"
           material="src: #videoku2"
           scale="4 4 0"
           rotation="-90 0 0"
           id="pos1aset1Ent"
-          klik
+          putarvideo
+          visible="false"
+          >
+        </a-entity>
+        
+        <a-entity
+          gltf-model="#syuaibtext"
+          position="0 0 3"
+          scale="1 1 2"
+          rotation="-70 0 0"
           >
         </a-entity>
       </a-marker>
       
 <!--       POS 3, ASET 1 -->
-      <a-marker type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-kominfo1.patt">
-        <a-entity gltf-model="#mandala">
+      <a-marker smooth="true" type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-disdik2.patt">
+        <a-entity 
+        gltf-model="#mandala"
+        scale="0.02 0.02 0.02"
+        rotation="-40 0 0"
+        >
           
         </a-entity>
       </a-marker>
       
-      <a-entity camera>
-        <a-entity cursor
+<!--       <a-marker type="pattern" preset="custom" url="https://cdn.glitch.me/55c23ebe-3a30-4684-9a46-e0295070a2bd%2Fpattern-kominfo.patt">
+        <a-entity geometry="primitive: plane" material="shader: flat; src: #pos3aset1"></a-entity>
+       </a-marker> -->
+      
+      <a-entity camera id="kamera">
+        <a-entity cursor="fuse:true"
             position="0 0 -1"
             geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
             material="color: #FF0000; shader: flat"
-            scale="0.5 0.5 0"
+            scale="0.4 0.5 0"
             animation__fokus="property: scale;
-            to: 0.1 0.1 0;
+            to: 0.09 0.1 0;
             dur: 100;
             startEvents: mouseenter"
             animation__pergi="property: scale;
             dur: 100;
-            to: 0.5 0.5 0;
+            to: 0.4 0.5 0;
             startEvents: mouseleave">
         </a-entity>
       </a-entity>
@@ -176,28 +198,53 @@
   </div>
 
   <script>
+
+    let staticBackdrop = new bootstrap.Modal(document.getElementById('staticBackdrop'))
+    
+    let videoku2 = document.querySelector('#videoku2');
+    videoku2.addEventListener("ended", function() {
+      alert("The audio has ended");
+    });
+
+    
+    let kamera = document.querySelector('#kamera')
+    function matikan(){
+      kamera.setAttribute('camera', 'active', false)
+    }
+
+     function nyalakan(){
+      kamera.setAttribute('camera', 'active', true)
+    }
+    // let url = new URLSearchParams(location.search);
+    
+      // simpan iduser ke storage
+      localStorage.setItem('iduser', "{{iduser}}")
+    
+    
+    let params = {
+      iduser: localStorage.getItem('iduser'),
+      pos: "",
+      aset: ""
+    }
     
     const socket = io();
       
-      //ambil id socket
-      socket.on("connect", (status) => {
-        console.log(socket.id)
+      socket.emit('join room', params.iduser)
+      
+      socket.on("status join", (pesan) => {
+        staticBackdrop.show()
+        
+        //MASUK ROOM
+        socket.emit("pesan room", params.iduser, "login")
         })
-      
-      function kirimSocket(){
-        //kirim socket
-        socket.emit('tes', socket.id, 'ini dari ok')
-      }
-      
-      //terima socket
-      socket.on('socketserver', (pesan)=>{
-        console.info(pesan)
-      })
-   
-    // video.addEventListener("ended", function() {
-    //   alert("The audio has ended");
-    // });
 
+      
+      socket.on("dari room", (pesan)=>{
+        alert(pesan)
+      })
+    
+   
+    
     
     function putarScreen(){
       if(screen.orientation.type == 'portrait-primary'){
@@ -226,7 +273,7 @@
         divMintaFull.setAttribute("class", "hilang");
       }
     }
- putarScreen()
+     putarScreen()
     
     screen.orientation.addEventListener('change', function(e) {
       putarScreen()
@@ -235,20 +282,12 @@
 
    let videoEl = document.querySelector('#videoku');
     
-    // simpan iduser ke storage
-    if(!localStorage.getItem('iduser')){
-      localStorage.setItem('iduser', "{{iduser}}")
-    }
-    
+  
     let modalSukses = document.getElementById('modalSukses')
   
-    let params = {
-      iduser: localStorage.getItem('iduser'),
-      pos: "",
-      aset: ""
-    }
+
     
-    kirim(params);
+    // kirim(params);
     
     function kirim(datauser){
       fetch("/", {
