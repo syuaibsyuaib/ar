@@ -36,42 +36,7 @@ const fastify = require("fastify")({
 
 fastify.register(require("fastify-socket.io"), {});
 
-// SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET=========================
 
-fastify.ready().then(() => {
-  fastify.io.on("connection", socket => {
-    //masuk room
-    socket.on("join room", iduser => {
-      socket.join(iduser);
-
-      socket.emit("status join", iduser);
-    });
-
-    ///t.on("pesan scanner", (iduser, pesan) => {
-     // console.log(pesan);
-
-    socket.on("pesan room", (iduser, pesan) => {
-      if (pesan == "login") {
-        socket.to(iduser).emit("dari scanner", pesan, `/syuaib?id=${iduser}`);
-      }
-    });
-
-    
-    
-    //terima socket
-    socket.on("perintah", (iduser, pesan) => {
-      //kirim di room
-      fastify.io.to(iduser).emit(pesan);
-
-      //======================================
-      //kirim socket
-      // socket.emit("socketserver", pesan);
-
-      //kirim kesemua
-      // socket.broadcast.emit("socketserver", pesan);
-    });
-  });
-});
 
 const favorites = [];
 
@@ -87,6 +52,48 @@ fastify.register(require("point-of-view"), {
     handlebars: require("handlebars")
   }
 });
+
+
+// SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET==SOCKET=========================
+let sock;
+
+fastify.ready().then(() => {
+  fastify.io.on("connection", socket => {
+    //masuk room
+    socket.on("join room", iduser => {
+      socket.join(iduser);
+
+      socket.emit("status join", iduser);
+    });
+
+    ///t.on("pesan scanner", (iduser, pesan) => {
+    // console.log(pesan);
+
+    socket.on("pesan room", (iduser, pesan) => {
+      if (pesan == "login") {
+        socket.to(iduser).emit("dari scanner", pesan, `/syuaib?id=${iduser}`);
+      }
+    });
+
+    sock = function (pesan) {
+      socket.emit("gform", pesan);
+    }
+
+    //terima socket
+    socket.on("perintah", (iduser, pesan) => {
+      //kirim di room
+      fastify.io.to(iduser).emit(pesan);
+
+      //======================================
+      //kirim socket
+      // socket.emit("socketserver", pesan);
+
+      //kirim kesemua
+      // socket.broadcast.emit("socketserver", pesan);
+    });
+  });
+});
+
 
 //===================================================================
 fastify.get("/google533aa18bac16ee48.html", function(request, reply) {
@@ -124,8 +131,18 @@ fastify.get("/scanner", async function(request, reply) {
 
 //======================================================================
 fastify.post("/", async function(request, reply) {
-  let isi = JSON.parse(request.body);
-  console.log(isi);
+  let isi;
+  
+  try {
+    isi = JSON.parse(request.body);
+  } catch (err) {
+    isi = request.body;
+    if (isi.asal == "gform") {
+      sock(isi["nama regu"])
+      reply.send(JSON.stringify(isi));
+    }
+  }
+
   let params = {
     iduser: isi.iduser,
     pos: isi.pos,
@@ -134,29 +151,30 @@ fastify.post("/", async function(request, reply) {
   };
 
   // apakah id siswa sudah ada di sheets
-  if (params.cek) {
-    const absen = await barisUser(params.iduser);
+    if (params.cek) {
+      const absen = await barisUser(params.iduser);
 
-    console.log(absen);
-    if (absen) {
-      reply.send({ ke: "/syuaib" });
-      const hasil = await posisiTerakhir(params.iduser);
+      console.log(absen);
+      if (absen) {
+        reply.send({ ke: "/syuaib" });
+        const hasil = await posisiTerakhir(params.iduser);
 
-      let tulisdi = {
-        posisi: `${keHuruf(hasil.kolom + 1)}${hasil.baris}`
-      };
+        let tulisdi = {
+          posisi: `${keHuruf(hasil.kolom + 1)}${hasil.baris}`
+        };
 
-      keHuruf(hasil.kolom);
+        keHuruf(hasil.kolom);
 
-      if (hasil.value.includes("pos")) {
-        reply.send(tulisdi);
-      } else {
-        reply.send(false);
+        if (hasil.value.includes("pos")) {
+          reply.send(tulisdi);
+        } else {
+          reply.send(false);
+        }
       }
-    }
-    // if(baris) {
-    //   reply.send({ ke: "/syuaib" });
-    // }
+
+  // if(baris) {
+  //   reply.send({ ke: "/syuaib" });
+  // }
   }
 });
 

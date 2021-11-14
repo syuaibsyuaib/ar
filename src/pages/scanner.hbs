@@ -24,10 +24,10 @@
             let videoku2 = document.querySelector('#videoku2');
             let pos1aset1Ent = document.querySelector("#pos1aset1Ent");
             
-            pos1aset1Ent.onclick = function(e){
-              // alert(e)              
-              videoku2.play();
-            };
+            this.el.addEventListener('click', function(e){
+              // alert(e) 
+                videoku2.play();
+            });
             
             pos1aset1Ent.emit('putarvideo')
         }
@@ -149,7 +149,6 @@
           rotation="-90 0 0"
           id="pos1aset1Ent"
           putarvideo
-          visible="false"
           >
         </a-entity>
         
